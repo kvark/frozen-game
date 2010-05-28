@@ -101,7 +101,7 @@ class AniTurret( kri.ani.Delta ):
 
 [STAThread]
 def Main(argv as (string)):
-	using ant = kri.Ant(1,400,300,0):
+	using ant = kri.Ant('kri.conf',0):
 		view = kri.ViewScreen(16,0)
 		rchain = kri.rend.Chain()
 		ant.views.Add( view )
@@ -116,7 +116,7 @@ def Main(argv as (string)):
 		view.scene.entities.AddRange( level.scene.entities )
 		view.scene.entities.AddRange( turret.scene.entities )
 		view.cam = at.scene.cameras[0]
-		view.scene.lights[0].makeDirectional(100f)
+		view.scene.lights[0].makeOrtho(100f)
 		
 		licon = kri.rend.light.Context(1,10)
 		licon.setExpo(120f, 0.5f)
