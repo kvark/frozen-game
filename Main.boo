@@ -108,15 +108,15 @@ def Main(argv as (string)):
 		ant.VSync = VSyncMode.On
 		
 		ln = kri.load.Native()
-		at = ln.read('res/object.scene')
-		level = ln.read('res/level-1.scene')
-		turret = ln.read('res/turret.scene')
+		at = ln.read('res/main.scene')
+		#level = ln.read('res/level-1.scene')
+		#turret = ln.read('res/turret.scene')
 		
 		view.scene = at.scene
-		view.scene.entities.AddRange( level.scene.entities )
-		view.scene.entities.AddRange( turret.scene.entities )
+		#view.scene.entities.AddRange( level.scene.entities )
+		#view.scene.entities.AddRange( turret.scene.entities )
 		view.cam = at.scene.cameras[0]
-		view.scene.lights[0].makeOrtho(100f)
+		#view.scene.lights[0].makeOrtho(100f)
 		
 		licon = kri.rend.light.Context(1,10)
 		licon.setExpo(120f, 0.5f)
@@ -126,16 +126,17 @@ def Main(argv as (string)):
 		rlis.Add( kri.kit.skin.Update(true) )
 		rlis.Add( kri.rend.EarlyZ() )
 		rlis.Add( kri.rend.Emission() )
-		rlis.Add( kri.rend.light.Fill(licon) )
-		rlis.Add( kri.rend.light.Apply(licon) )
+		#rlis.Add( kri.rend.light.Fill(licon) )
+		#rlis.Add( kri.rend.light.Apply(licon) )
+		rlis.Add( kri.rend.light.omni.Apply(false) )
 		#rlis.Add( kri.rend.debug.MapLight(-1,at.scene.lights[0]) )
 		
 		ant.anim = al = kri.ani.Scheduler()
-		nvin = at.nodes['Vint']
+		nvin = at.nodes['node-heli_']
 		nheli = nvin.Parent
-		ncam = at.nodes['FollowCam']
-		al.add( AniVint(nvin) )
+		ncam = view.cam.node
+		#al.add( AniVint(nvin) )
 		al.add( AniControl(nheli) )
 		al.add( AniCamFollow(ncam, nheli.Parent) )
-		al.add( AniTurret(turret.nodes['Cube.001'], nheli) )
+		#al.add( AniTurret(turret.nodes['Cube.001'], nheli) )
 		ant.Run(30.0,30.0)
