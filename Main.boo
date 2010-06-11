@@ -21,7 +21,7 @@ class AniControl( kri.ani.Delta ):
 	private roll = Vector2(0f,0f)
 	private final rollSpeed	= 0.8f
 	private final rollBack	= 0.4f
-	private final moveSpeed = 100.0f
+	private final moveSpeed = 500.0f
 	private final limits	= (0.6f,0.3f,0.4f)
 	public def constructor(n as kri.Node):
 		noHeli = n
@@ -30,10 +30,10 @@ class AniControl( kri.ani.Delta ):
 		# gather
 		kr = Vector3(0f,0f,0f)
 		kb = kri.Ant.Inst.Keyboard
-		if kb.Item[Key.W]:	kr.X += 1f
-		if kb.Item[Key.S]:	kr.X -= 1f
-		if kb.Item[Key.A]:	kr.Y -= 1f
-		if kb.Item[Key.D]:	kr.Y += 1f
+		if kb.Item[Key.W]:	kr.Y -= 1f
+		if kb.Item[Key.S]:	kr.Y += 1f
+		if kb.Item[Key.A]:	kr.X -= 1f
+		if kb.Item[Key.D]:	kr.X += 1f
 		if kb.Item[Key.Q]:	kr.Z -= 1f
 		if kb.Item[Key.E]:	kr.Z += 1f
 		# roll calc
