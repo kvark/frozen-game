@@ -6,4 +6,5 @@ obj
 *.dll
 *.pdb
 *.exe
+*.zip
 OpenTK.*
