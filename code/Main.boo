@@ -21,7 +21,7 @@ class AniControl( kri.ani.Delta ):
 	private roll = Vector2(0f,0f)
 	private final rollSpeed	= 0.8f
 	private final rollBack	= 0.4f
-	private final moveSpeed = 500.0f
+	private final moveSpeed = 1000f
 	private final limits	= (0.6f,0.3f,0.4f)
 	public def constructor(n as kri.Node):
 		noHeli = n
@@ -61,9 +61,10 @@ class AniCamFollow( kri.ani.Delta ):
 	private final nobj	as kri.Node	= null
 	private final soff	as kri.Spatial
 	private final speed = -4f
-	public def constructor(*n as (kri.Node)):
-		ncam,nobj = n[0],n[1]
-		(s0 = nobj.local).inverse()
+	public def constructor(nc as kri.Node, no as kri.Node):
+		ncam,nobj = nc,no
+		s0 = nobj.local
+		s0.inverse()
 		soff.combine( ncam.local, s0 )
 	protected override def onDelta(delta as double) as uint:
 		starg as kri.Spatial
@@ -113,6 +114,13 @@ def Main(argv as (string)):
 		#turret = ln.read('res/turret.scene')
 		
 		view.scene = at.scene
+		for lit in at.scene.lights:
+			lit.fov = 0f
+			lit.rangeOut = 10000f
+			lit.quad1 = 0f
+			lit.quad2 = 0f
+			lit.sphere = 0f
+		
 		#view.scene.entities.AddRange( level.scene.entities )
 		#view.scene.entities.AddRange( turret.scene.entities )
 		view.cam = at.scene.cameras[0]
@@ -134,9 +142,9 @@ def Main(argv as (string)):
 		ant.anim = al = kri.ani.Scheduler()
 		nvin = at.nodes['node-heli_']
 		nheli = nvin.Parent
-		ncam = view.cam.node
-		#al.add( AniVint(nvin) )
+		#ncam = view.cam.node
+		al.add( AniVint(nvin) )
 		al.add( AniControl(nheli) )
-		al.add( AniCamFollow(ncam, nheli.Parent) )
-		#al.add( AniTurret(turret.nodes['Cube.001'], nheli) )
+		#al.add( AniCamFollow(nheli,ncam.Parent) )
+		al.add( AniTurret(at.nodes['node-turtB_main'], nheli) )
 		ant.Run(30.0,30.0)

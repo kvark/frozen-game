@@ -1,6 +1,9 @@
 syntax: glob
 
 res
-bin
 obj
 *.cache
+*.dll
+*.pdb
+*.exe
+OpenTK.*
