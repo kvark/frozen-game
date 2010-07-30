@@ -28,7 +28,7 @@ class AniControl( kri.ani.Delta ):
 		noDummy = n.Parent
 	protected override def onDelta(delta as double) as uint:
 		# gather
-		kr = Vector3(0f,0f,0f)
+		kr = Vector3.Zero
 		kb = kri.Ant.Inst.Keyboard
 		if kb.Item[Key.W]:	kr.Y -= 1f
 		if kb.Item[Key.S]:	kr.Y += 1f
@@ -103,7 +103,8 @@ class AniTurret( kri.ani.Delta ):
 [STAThread]
 def Main(argv as (string)):
 	using ant = kri.Ant('kri.conf',0):
-		view = kri.ViewScreen(16,0)
+		ant.extensions.Add( support.skin.Extra() )
+		view = kri.ViewScreen(0,16,0)
 		rchain = kri.rend.Chain()
 		ant.views.Add( view )
 		ant.VSync = VSyncMode.On
@@ -131,7 +132,7 @@ def Main(argv as (string)):
 		view.ren = rchain
 		rlis = rchain.renders
 		
-		rlis.Add( kri.kit.skin.Update(true) )
+		rlis.Add( support.skin.Update(true) )
 		rlis.Add( kri.rend.EarlyZ() )
 		rlis.Add( kri.rend.Emission() )
 		#rlis.Add( kri.rend.light.Fill(licon) )
