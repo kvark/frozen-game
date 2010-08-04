@@ -16,6 +16,7 @@ class AniVint( kri.ani.IBase ):
 
 
 class AniControl( kri.ani.Delta ):
+	private final kb		as KeyboardDevice
 	private final noHeli	as kri.Node	= null
 	private final noDummy	as kri.Node	= null
 	private roll = Vector2(0f,0f)
@@ -23,13 +24,14 @@ class AniControl( kri.ani.Delta ):
 	private final rollBack	= 0.4f
 	private final moveSpeed = 1000f
 	private final limits	= (0.6f,0.3f,0.4f)
-	public def constructor(n as kri.Node):
+	
+	public def constructor(kdev as KeyboardDevice, n as kri.Node):
+		kb = kdev
 		noHeli = n
 		noDummy = n.Parent
 	protected override def onDelta(delta as double) as uint:
 		# gather
 		kr = Vector3.Zero
-		kb = kri.Ant.Inst.Keyboard
 		if kb.Item[Key.W]:	kr.Y -= 1f
 		if kb.Item[Key.S]:	kr.Y += 1f
 		if kb.Item[Key.A]:	kr.X -= 1f
@@ -102,12 +104,12 @@ class AniTurret( kri.ani.Delta ):
 
 [STAThread]
 def Main(argv as (string)):
-	using ant = kri.Ant('kri.conf',0):
-		ant.extensions.Add( support.skin.Extra() )
-		view = kri.ViewScreen(0,16,0)
+	using win = kri.Window('kri.conf',0):
+		win.core.extensions.Add( support.skin.Extra() )
+		view = kri.ViewScreen(0,0,16,0)
 		rchain = kri.rend.Chain()
-		ant.views.Add( view )
-		ant.VSync = VSyncMode.On
+		win.views.Add( view )
+		win.VSync = VSyncMode.On
 		
 		ln = kri.load.Native()
 		at = ln.read('res/main.scene')
@@ -140,12 +142,12 @@ def Main(argv as (string)):
 		rlis.Add( kri.rend.light.omni.Apply(false) )
 		#rlis.Add( kri.rend.debug.MapLight(-1,at.scene.lights[0]) )
 		
-		ant.anim = al = kri.ani.Scheduler()
+		win.core.anim = al = kri.ani.Scheduler()
 		nvin = at.nodes['node-heli_']
 		nheli = nvin.Parent
 		#ncam = view.cam.node
 		al.add( AniVint(nvin) )
-		al.add( AniControl(nheli) )
+		al.add( AniControl( win.Keyboard, nheli ))
 		#al.add( AniCamFollow(nheli,ncam.Parent) )
 		al.add( AniTurret(at.nodes['node-turtB_main'], nheli) )
-		ant.Run(30.0,30.0)
+		win.Run(30.0,30.0)
