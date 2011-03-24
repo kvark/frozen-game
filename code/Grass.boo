@@ -5,5 +5,5 @@ public class BehAir( kri.part.Behavior ):
 	public def constructor(node as kri.Node):
 		super('text/beh/grass_v')
 		pNode.activate(node)
-	public override def link(d as kri.shade.rep.Dict) as void:
+	public override def link(d as kri.shade.par.Dict) as void:
 		(pNode as kri.meta.IBase).link(d)

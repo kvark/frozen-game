@@ -4,7 +4,6 @@ import System
 import OpenTK
 #import OpenTK.Graphics
 
-
 [STAThread]
 def Main(argv as (string)):
 	using win = kri.Window('kri.conf',0):
@@ -13,7 +12,7 @@ def Main(argv as (string)):
 		ce.Add( support.mirror.Extra() )
 		ce.Add( corp = support.corp.Extra() )
 		corp.bake.filt = true
-		view = kri.ViewScreen(0,0,8,0)
+		view = kri.ViewScreen()
 		rchain = kri.rend.Chain()
 		win.views.Add( view )
 		win.VSync = VSyncMode.On
@@ -31,7 +30,7 @@ def Main(argv as (string)):
 		lit = view.scene.lights[0]
 		lit.makeOrtho(100f)
 		
-		licon = kri.rend.light.Context(1,10)
+		licon = support.light.Context(1,10)
 		licon.setExpo(120f, 0.5f)
 		view.ren = rchain
 		rlis = rchain.renders
@@ -40,8 +39,8 @@ def Main(argv as (string)):
 		rlis.Add( support.bake.surf.Update(0,corp.bake.filt) )
 		rlis.Add( kri.rend.EarlyZ() )
 		rlis.Add( kri.rend.Emission() )
-		rlis.Add( kri.rend.light.Fill(licon) )
-		rlis.Add( kri.rend.light.Apply(licon) )
+		rlis.Add( support.light.Fill(licon) )
+		rlis.Add( support.light.Apply(licon) )
 		rlis.Add( kri.rend.part.Standard( corp.con ) )
 		#rlis.Add( kri.rend.light.omni.Apply(false) )
 		rlis.Add( support.mirror.Render() )
