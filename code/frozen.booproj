@@ -30,8 +30,8 @@
     <StartAction>Project</StartAction>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <OutputPath>bin\Release\</OutputPath>
-    <DebugSymbols>False</DebugSymbols>
+    <OutputPath>..\</OutputPath>
+    <DebugSymbols>false</DebugSymbols>
     <DebugType>None</DebugType>
     <Optimize>True</Optimize>
     <DefineConstants>TRACE</DefineConstants>
@@ -43,7 +43,7 @@
     <Compile Include="Main.boo" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\kri\engine\engine.booproj">
+    <ProjectReference Include="..\..\..\kri\core\engine.booproj">
       <Project>{3AF8D8CA-1C4C-4229-BDDA-BB7C2C46D627}</Project>
       <Name>engine</Name>
     </ProjectReference>

@@ -5,7 +5,7 @@ import OpenTK
 import OpenTK.Input
 
 
-class Vint( kri.ani.IBase ):
+class Vint( kri.ani.Basic ):
 	private final node	as kri.Node	= null
 	public def constructor(n as kri.Node):
 		node = n
